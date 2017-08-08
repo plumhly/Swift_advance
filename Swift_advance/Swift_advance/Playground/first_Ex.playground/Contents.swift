@@ -37,3 +37,37 @@ var plums = [1,2,3,4]
 var n = plums.accumulate(0) { (resukt, str) -> Int in
     return resukt + str
 }
+
+(1..<10).forEach { (item) in
+    print(item)
+    if item % 2 == 0 {
+        return
+    }
+}
+
+do {
+    let slice = [1, 2, 3, 4][1...3]
+    type(of: slice)
+    let newS = Array(slice)
+    let s = newS as NSArray
+    for item in s {
+        print(type(of: item))
+    }
+}
+
+extension Dictionary {
+   mutating func merge<S>(_ other: S) where S: Sequence, S.Iterator.Element == (key: Key, value: Value) {
+        for (k, v) in self {
+            self[k] = v
+        }
+    }
+    
+    func mapValues<NewValue>(transform: (Value) -> NewValue) -> [Key: NewValue] {
+        return Dictionary<Key, Value>.map({
+            (k, v) in
+            return (k, transform(v))
+        })
+    }
+}
+
+
