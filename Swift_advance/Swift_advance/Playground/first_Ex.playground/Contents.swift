@@ -57,17 +57,28 @@ do {
 
 extension Dictionary {
    mutating func merge<S>(_ other: S) where S: Sequence, S.Iterator.Element == (key: Key, value: Value) {
-        for (k, v) in self {
+        for (k, v) in other {
             self[k] = v
         }
     }
     
-    func mapValues<NewValue>(transform: (Value) -> NewValue) -> [Key: NewValue] {
-        return Dictionary<Key, Value>.map({
-            (k, v) in
-            return (k, transform(v))
-        })
+    init<S: Sequence>(_ sequence: S) where S.Iterator.Element == (key: Key, value: Value) {
+        self = [:]
+        self.merge(sequence)
+    }
+    
+    func mapValues<NewValue>(transform: (Value) -> NewValue)
+        -> [Key:NewValue] {
+            return Dictionary<Key, NewValue>(map { (key, value) in
+                return (key, transform(value))
+            })
     }
 }
+
+var d = ["1": 1, "3": 3]
+var ds = d.mapValues { (value) in
+    return "\(value)"
+}
+print(ds)
 
 
