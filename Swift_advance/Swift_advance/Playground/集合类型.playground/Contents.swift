@@ -70,4 +70,12 @@ var array = Array(qu)
 array.append(contentsOf: qu[2...3])
 
 
+extension FIFOQueue: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        self.init(left: elements.reversed(), right: [])
+    }
+}
+
+var que: FIFOQueue = [1,2,3]
+
 
