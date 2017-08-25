@@ -78,4 +78,10 @@ extension FIFOQueue: ExpressibleByArrayLiteral {
 
 var que: FIFOQueue = [1,2,3]
 
+var names = ["li","bo"]
+print(names.startIndex)
+print(names.endIndex)
 
+var dic = ["name": "libo"]
+print(dic.startIndex)
+dic[dic.index(forKey: "name")!]
