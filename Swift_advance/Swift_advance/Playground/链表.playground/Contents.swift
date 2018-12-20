@@ -28,3 +28,23 @@ extension List: ExpressibleByArrayLiteral {
 
 let list2: List = [1,2,3]
 
+
+protocol Stack {
+    associatedtype Element
+    mutating func pop() -> Element?
+    mutating func push(_ x: Element)
+}
+
+extension Array: Stack {
+    mutating func pop() -> Element? {
+       return popLast()
+    }
+    
+    mutating func push(_ x: Element) {
+        append(x)
+    }
+}
+
+var liArray = [1,2,3]
+var res = liArray.popLast()
+
