@@ -336,34 +336,34 @@ do {
 //}
 
 /// 一个能将元素出队和入队的类型
-//protocol Queue {
-//    /// 在`self`中持有的元素类型
-//    associatedtype Element
-//    /// 将 `newElement` ⼊队到 `self`
-//    mutating func enqueue(_ newElement: Element)
-//    /// 从 `self` 出队⼀个元素
-//    mutating func dequeue() -> Element?
-//}
-//
-//
-//struct FIFOQueue<Element> : Queue {
-//    private var left: [Element] = []
-//    private var right: [Element] = []
-//
-//    mutating func enqueue(_ newElement: Element) {
-//        right.append(newElement)
-//    }
-//
-//    mutating func dequeue() -> Element? {
-//        if left.isEmpty {
-//            left = right.reversed()
-//            right.removeAll()
-//        }
-//        return left.popLast()
-//    }
-//
-//}
-//
+protocol Queue {
+    /// 在`self`中持有的元素类型
+    associatedtype Element
+    /// 将 `newElement` ⼊队到 `self`
+    mutating func enqueue(_ newElement: Element)
+    /// 从 `self` 出队⼀个元素
+    mutating func dequeue() -> Element?
+}
+
+
+struct FIFOQueue<Element> : Queue {
+    private var left: [Element] = []
+    private var right: [Element] = []
+
+    mutating func enqueue(_ newElement: Element) {
+        right.append(newElement)
+    }
+
+    mutating func dequeue() -> Element? {
+        if left.isEmpty {
+            left = right.reversed()
+            right.removeAll()
+        }
+        return left.popLast()
+    }
+
+}
+
 //extension FIFOQueue : Collection {
 //    public var startIndex: Int {
 //        return 0
@@ -388,12 +388,12 @@ do {
 //    }
 //}
 //
-//extension FIFOQueue : ExpressibleByArrayLiteral {
-//    init(arrayLiteral elements: Element...) {
-//        left = elements.reversed()
-//        right = []
-//    }
-//}
+extension FIFOQueue : ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        left = elements.reversed()
+        right = []
+    }
+}
 
 //let dic = ["a": "b"]
 //dic.first
@@ -498,3 +498,42 @@ struct PrefixIterator<Base: Collection>: IteratorProtocol, Sequence {
 let number = [1, 2, 3]
 Array(PrefixIterator(number))
 
+extension FIFOQueue : MutableCollection {
+    
+    public var startIndex: Int {
+        return 0
+    }
+    
+    public var endIndex: Int {
+        return left.count + right.count
+    }
+    
+    public func index(after i: Int) -> Int {
+        precondition(i < endIndex)
+        return i + 1
+    }
+    
+    public subscript(position: Int) -> Element {
+        get {
+            precondition((0..<endIndex).contains(position), "Index out of bounds")
+            if position < left.endIndex {
+                return left[left.count - position - 1]
+            } else {
+                return right[position - left.count]
+            }
+        }
+        set {
+            precondition((0..<endIndex).contains(position), "index out if bounds")
+            if position < left.endIndex {
+                left[left.count - position - 1] = newValue
+            } else {
+                return right[position - left.count] = newValue
+            }
+        }
+    }
+}
+
+var quqe: FIFOQueue = ["li", "bo", "is", "man"]
+quqe.first
+quqe[0] = "plum"
+quqe.first
