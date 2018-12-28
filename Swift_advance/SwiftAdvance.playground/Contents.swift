@@ -537,3 +537,11 @@ var quqe: FIFOQueue = ["li", "bo", "is", "man"]
 quqe.first
 quqe[0] = "plum"
 quqe.first
+
+extension FIFOQueue : RangeReplaceableCollection {
+    mutating func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Element == Element {
+        right = left.reversed() + right
+        left.removeAll()
+        right.replaceSubrange(subrange, with: newElements)
+    }
+}
