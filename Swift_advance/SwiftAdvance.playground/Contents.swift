@@ -477,71 +477,90 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //slice.startIndex
 //cities.indices
 
-struct PrefixIterator<Base: Collection>: IteratorProtocol, Sequence {
-    let base: Base
-    var offset: Base.Index
-    
-    init(_ base: Base) {
-        self.base = base
-        self.offset = base.startIndex
-    }
-    
-    mutating func next() -> Base.SubSequence? {
-        guard offset != base.endIndex else {
-            return nil
-        }
-        base.formIndex(after: &offset)
-        return base.prefix(upTo: offset)
-    }
-}
+//struct PrefixIterator<Base: Collection>: IteratorProtocol, Sequence {
+//    let base: Base
+//    var offset: Base.Index
+//
+//    init(_ base: Base) {
+//        self.base = base
+//        self.offset = base.startIndex
+//    }
+//
+//    mutating func next() -> Base.SubSequence? {
+//        guard offset != base.endIndex else {
+//            return nil
+//        }
+//        base.formIndex(after: &offset)
+//        return base.prefix(upTo: offset)
+//    }
+//}
+//
+//let number = [1, 2, 3]
+//Array(PrefixIterator(number))
+//
+//extension FIFOQueue : MutableCollection {
+//
+//    public var startIndex: Int {
+//        return 0
+//    }
+//
+//    public var endIndex: Int {
+//        return left.count + right.count
+//    }
+//
+//    public func index(after i: Int) -> Int {
+//        precondition(i < endIndex)
+//        return i + 1
+//    }
+//
+//    public subscript(position: Int) -> Element {
+//        get {
+//            precondition((0..<endIndex).contains(position), "Index out of bounds")
+//            if position < left.endIndex {
+//                return left[left.count - position - 1]
+//            } else {
+//                return right[position - left.count]
+//            }
+//        }
+//        set {
+//            precondition((0..<endIndex).contains(position), "index out if bounds")
+//            if position < left.endIndex {
+//                left[left.count - position - 1] = newValue
+//            } else {
+//                return right[position - left.count] = newValue
+//            }
+//        }
+//    }
+//}
+//
+//var quqe: FIFOQueue = ["li", "bo", "is", "man"]
+//quqe.first
+//quqe[0] = "plum"
+//quqe.first
+//
+//extension FIFOQueue : RangeReplaceableCollection {
+//    mutating func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Element == Element {
+//        right = left.reversed() + right
+//        left.removeAll()
+//        right.replaceSubrange(subrange, with: newElements)
+//    }
+//}
 
-let number = [1, 2, 3]
-Array(PrefixIterator(number))
+//let a = ["one", "two"]
+//a.find
 
-extension FIFOQueue : MutableCollection {
-    
-    public var startIndex: Int {
-        return 0
-    }
-    
-    public var endIndex: Int {
-        return left.count + right.count
-    }
-    
-    public func index(after i: Int) -> Int {
-        precondition(i < endIndex)
-        return i + 1
-    }
-    
-    public subscript(position: Int) -> Element {
-        get {
-            precondition((0..<endIndex).contains(position), "Index out of bounds")
-            if position < left.endIndex {
-                return left[left.count - position - 1]
-            } else {
-                return right[position - left.count]
-            }
-        }
-        set {
-            precondition((0..<endIndex).contains(position), "index out if bounds")
-            if position < left.endIndex {
-                left[left.count - position - 1] = newValue
-            } else {
-                return right[position - left.count] = newValue
-            }
-        }
-    }
-}
+//var s = ["o", "2"]
+//switch s.firstIndex(of: "o") {
+//case let id?:
+//    s.remove(at: id)
+//case nil:
+//    break
+//}
+//print(s)
 
-var quqe: FIFOQueue = ["li", "bo", "is", "man"]
-quqe.first
-quqe[0] = "plum"
-quqe.first
-
-extension FIFOQueue : RangeReplaceableCollection {
-    mutating func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Element == Element {
-        right = left.reversed() + right
-        left.removeAll()
-        right.replaceSubrange(subrange, with: newElements)
-    }
+let sanc = Scanner(string: "lisa123")
+var user: NSString?
+let apha = CharacterSet.alphanumerics
+if sanc.scanCharacters(from: apha, into: &user), let name = user {
+    print(name)
 }
