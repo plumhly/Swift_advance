@@ -558,9 +558,40 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //}
 //print(s)
 
-let sanc = Scanner(string: "lisa123")
-var user: NSString?
-let apha = CharacterSet.alphanumerics
-if sanc.scanCharacters(from: apha, into: &user), let name = user {
-    print(name)
-}
+//let sanc = Scanner(string: "lisa123")
+//var user: NSString?
+//let apha = CharacterSet.alphanumerics
+//if sanc.scanCharacters(from: apha, into: &user), let name = user {
+//    print(name)
+//}
+
+//for i in 0..<10 where i % 2 == 0 {
+//    print(i)
+//}
+
+//let stringNumber = ["1", "2", "two"]
+//let other = stringNumber.map(Int.init)
+//other.count
+//print(other)
+
+//for case let i? in other {
+//    print(i)
+//}
+
+//let i = 2
+//if case 1...3 = i {
+//    print("contain")
+//}
+
+//struct Pattern {
+//    let s: String
+//}
+//
+//func ~=(patter: Pattern, value: String) -> Bool {
+//    return value.range(of: patter.s) != nil
+//}
+//
+//let s = "Tylor Swift"
+//if case Pattern(s: "wift") = s {
+//    print("contain swoift")
+//}
