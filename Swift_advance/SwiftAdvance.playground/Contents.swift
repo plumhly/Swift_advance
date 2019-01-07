@@ -595,3 +595,28 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //if case Pattern(s: "wift") = s {
 //    print("contain swoift")
 //}
+
+//let string: String? = "hello"
+//let result = string?.uppercased()?.lowercased()
+//print(string)
+//debugPrint(result)
+//extension Int {
+//    var half: Int? {
+//        guard self < -1 || self > 1 else {
+//            return nil
+//        }
+//        return self / 2
+//    }
+//}
+//
+//let value = 20.half?.half?.half
+//print(value)
+
+
+//var a: Int? = 3
+//a? = 2
+//print(a)
+//
+//var b: Int? = nil
+//b? = 2
+//print(b)
