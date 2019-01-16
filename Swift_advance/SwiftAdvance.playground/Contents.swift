@@ -620,3 +620,56 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //var b: Int? = nil
 //b? = 2
 //print(b)
+
+//let s1: String?? = nil
+//(s1 ?? "inner") ?? "outer"
+//
+//let s2: String?? = .some(nil)
+//s2 ?? "iner" ?? "outer"
+
+//let s3: String? = "d"
+//let s = s3 ?? "x"
+
+//let s: Double? = 4
+//print("s\(String(describing: s))")
+
+
+//infix operator ???:NilCoalescingPrecedence
+//
+//public func ???<T>(optional: T?, defaultValue: @autoclosure ()->String ) -> String {
+//    switch optional {
+//    case let value?:
+//        return String(describing: value)
+//    default:
+//        return defaultValue()
+//    }
+//}
+//
+//
+//let sd =  s ??? "de"
+
+//let s: Int? = 1
+//s.map {String($0)}
+
+
+//let s = [1, nil, 2].map {_ in return 2 }
+//print(s)
+let stringNumber = ["1", "2", nil]
+//let x = stringNumber.first
+//let o = x.map { Int($0) }
+//print(x)
+stringNumber.lazy.map { $0}
+
+func flatten<S: Sequence, T>(source: S) -> [T] where S.Element == T? {
+    let filtered = source.lazy.filter { $0 != nil }
+    return filtered.map { $0! }
+}
+
+
+let d = flatten(source: stringNumber)
+
+extension Sequence {
+    func flatMap<U>(transform: (Element) -> U?) -> [U] {
+        return flatten(source: self.lazy.map(transform))
+    }
+}
