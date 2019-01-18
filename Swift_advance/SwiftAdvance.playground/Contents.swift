@@ -654,22 +654,61 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 
 //let s = [1, nil, 2].map {_ in return 2 }
 //print(s)
-let stringNumber = ["1", "2", nil]
+//let stringNumber = ["1", "2", nil]
 //let x = stringNumber.first
 //let o = x.map { Int($0) }
 //print(x)
-stringNumber.lazy.map { $0}
+//stringNumber.lazy.map { $0}
+//
+//func flatten<S: Sequence, T>(source: S) -> [T] where S.Element == T? {
+//    let filtered = source.lazy.filter { $0 != nil }
+//    return filtered.map { $0! }
+//}
+//
+//
+//let d = flatten(source: stringNumber)
+//
+//extension Sequence {
+//    func flatMap<U>(transform: (Element) -> U?) -> [U] {
+//        return flatten(source: self.lazy.map(transform))
+//    }
+//}
 
-func flatten<S: Sequence, T>(source: S) -> [T] where S.Element == T? {
-    let filtered = source.lazy.filter { $0 != nil }
-    return filtered.map { $0! }
+//let a:[Int?] = [1, 32, nil]
+//let b:[Int?] = [1, 2, nil]
+//a == b
+//let s = a.elementsEqual(b) { $0 == $1 }
+//s]
+
+//infix operator !!
+//
+//func !!<T>(wrapped: T?, failureText: @autoclosure () -> String ) -> T {
+//    if let x = wrapped { return x }
+//    fatalError(failureText())
+//}
+//
+//let s: String = "dfdf"
+//Int(s)
+//
+//infix operator !?
+//
+//func !?<T>(war: T?, nilDefault: () ->(value: T, text: String)) -> T {
+//    assert(war != nil, nilDefault().text);
+//    return war ?? nilDefault().value;
+//}
+//
+//var out: String? = nil
+//out?.write("dd")!?"dfdfdf"
+
+//let s: String? = "jl"
+//let d = s ?? "f"
+
+func incre(x: inout Int) {
+    x += 1
 }
 
+var i = 1
+incre(x: &i)
 
-let d = flatten(source: stringNumber)
-
-extension Sequence {
-    func flatMap<U>(transform: (Element) -> U?) -> [U] {
-        return flatten(source: self.lazy.map(transform))
-    }
-}
+var s: Int! = 1
+incre(x: &s)
