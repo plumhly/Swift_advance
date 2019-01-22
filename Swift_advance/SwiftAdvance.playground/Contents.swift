@@ -703,12 +703,88 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //let s: String? = "jl"
 //let d = s ?? "f"
 
-func incre(x: inout Int) {
-    x += 1
+//func incre(x: inout Int) {
+//    x += 1
+//}
+//
+//var i = 1
+//incre(x: &i)
+//
+//var s: Int! = 1
+//incre(x: &s)
+
+// 5 结构体和类
+//let mutable: NSMutableArray = [1, 2, 3]
+//for _ in mutable {
+//    mutable.removeLastObject()
+//}
+
+//var mutable = [1, 2, 3]
+//for _ in mutable {
+//    mutable.removeLast()
+//}
+
+//struct My {
+//    let name: String
+//    let age: Int
+//}
+//
+//extension My {
+//    init(_ myName: String, age: Int) {
+//        self.name = myName;
+//        self.age = age;
+//    }
+//}
+
+//var names: [String] = [] {
+//    didSet {
+//        print(names)
+//    }
+//}
+//
+//names.append("d")
+//names.append("2")
+
+struct Point {
+    var x: Int
+    var y: Int
 }
 
-var i = 1
-incre(x: &i)
+struct Size {
+    var width: Int
+    var height: Int
+}
 
-var s: Int! = 1
-incre(x: &s)
+struct Rectangle {
+    var origin: Point
+    var size: Size
+}
+
+extension Point {
+    static let zero = Point(x: 0, y: 0)
+}
+
+extension Rectangle {
+    init(x: Int, y: Int, width: Int, height: Int) {
+        origin = Point(x: x, y: y)
+        size = Size(width: width, height: height)
+    }
+}
+
+func +(lhs: Point, rhs: Point) -> Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+
+extension Rectangle {
+    mutating func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+
+extension Rectangle {
+    func translated(by offset: Point) -> Rectangle {
+        var copy = self
+        copy.translate(by: offset)
+        return copy
+    }
+}
