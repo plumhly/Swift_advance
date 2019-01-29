@@ -788,3 +788,147 @@ extension Rectangle {
         return copy
     }
 }
+
+final class Box<A> {
+    var unbox: A
+    init(_ value: A) {
+        unbox = value
+    }
+}
+
+
+struct MyData {
+    var _data: Box<NSMutableData>
+    var _dataForWriting: NSMutableData {
+      mutating get {
+        if !isKnownUniquelyReferenced(&_data) {
+            _data = Box(_data.unbox.mutableCopy() as! NSMutableData)
+            print("Making a copy")
+        }
+            return _data.unbox
+        }
+    }
+    init(_ data: NSData) {
+        _data = Box(data.mutableCopy() as! NSMutableData)
+    }
+    
+    init() {
+        _data = Box(NSMutableData())
+    }
+}
+
+//let theData = NSData(base64Encoded: "wAEP/w==")!
+//print(theData == nil)
+//var x = MyData(theData)
+//let y = x
+//y._data === x._data
+
+extension MyData {
+   mutating func append(_ byte: UInt8) {
+        var mutableByte = byte
+        _dataForWriting.append(&mutableByte, length: 1)
+    }
+}
+//
+//x.append(0x55)
+//y._data
+//x._data
+//var d = NSMutableData()
+//isKnownUniquelyReferenced(&d)
+
+
+//var d = Box(NSMutableData())
+//isKnownUniquelyReferenced(&d)
+
+//var bytes = MyData()
+//var copy = bytes
+//
+//for byte in 0..<5 as CountableRange<UInt8> {
+//    print("Apping 0x\(String(byte, radix: 16))")
+//    bytes.append(byte)
+//}
+//
+//var ns = NSMutableString(string: "first")
+//var array: [Any] = [1,ns]
+//var other = array
+//array.append("3")
+//ns.append("d")
+//other[1]
+//array[1]
+
+final class Empty {}
+
+struct COWStruct {
+    var ref = Empty()
+    
+     mutating func change() -> String {
+        if isKnownUniquelyReferenced(&ref) {
+            return "No copy"
+        } else {
+            return "copy"
+        }
+    }
+}
+
+//var s = COWStruct()
+//s.change()
+
+//var orignal = s
+//orignal.change()
+//
+//var array = [s]
+//array[0].change()
+//print(array)
+
+//func address(o: UnsafeRawPointer) -> Int {
+//    return Int(bitPattern: o)
+//}
+//
+//address(o: &s)
+//var dict = ["key": COWStruct()]
+//dict["key"]?.change()
+
+//var i = 0
+//func uniqueInteger() -> Int {
+//    i += 1
+//    return i
+//}
+//
+//uniqueInteger()
+//uniqueInteger()
+//
+//let otherFunction: () -> Int = uniqueInteger
+//let s = otherFunction()
+//
+//func uniqueIntegerProvider() -> () -> Int {
+//    var i = 0
+//    return {
+//        i += 1
+//        return i
+//    }
+//}
+//
+//uniqueIntegerProvider()()
+//uniqueIntegerProvider()()
+//let otherProvider = uniqueIntegerProvider()
+//let ds = otherProvider()
+
+func uniqueIntegerProvider() -> AnyIterator<Int> {
+    var i = 0
+    return AnyIterator {
+        i += 1
+        return i
+    }
+}
+
+//for i in uniqueIntegerProvider() {
+//    print(i)
+//}
+let fu = uniqueIntegerProvider()
+let one = fu.next()
+let two = fu.next()
+let other = uniqueIntegerProvider()
+other.next()
+
+// 第六章 编码和解码
+
