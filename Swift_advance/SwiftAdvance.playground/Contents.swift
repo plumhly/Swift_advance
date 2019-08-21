@@ -745,77 +745,77 @@ extension FIFOQueue : ExpressibleByArrayLiteral {
 //names.append("d")
 //names.append("2")
 
-struct Point {
-    var x: Int
-    var y: Int
-}
+//struct Point {
+//    var x: Int
+//    var y: Int
+//}
+//
+//struct Size {
+//    var width: Int
+//    var height: Int
+//}
+//
+//struct Rectangle {
+//    var origin: Point
+//    var size: Size
+//}
 
-struct Size {
-    var width: Int
-    var height: Int
-}
-
-struct Rectangle {
-    var origin: Point
-    var size: Size
-}
-
-extension Point {
-    static let zero = Point(x: 0, y: 0)
-}
-
-extension Rectangle {
-    init(x: Int, y: Int, width: Int, height: Int) {
-        origin = Point(x: x, y: y)
-        size = Size(width: width, height: height)
-    }
-}
-
-func +(lhs: Point, rhs: Point) -> Point {
-    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-}
-
-extension Rectangle {
-    mutating func translate(by offset: Point) {
-        origin = origin + offset
-    }
-}
-
-extension Rectangle {
-    func translated(by offset: Point) -> Rectangle {
-        var copy = self
-        copy.translate(by: offset)
-        return copy
-    }
-}
-
-final class Box<A> {
-    var unbox: A
-    init(_ value: A) {
-        unbox = value
-    }
-}
-
-
-struct MyData {
-    var _data: Box<NSMutableData>
-    var _dataForWriting: NSMutableData {
-      mutating get {
-        if !isKnownUniquelyReferenced(&_data) {
-            _data = Box(_data.unbox.mutableCopy() as! NSMutableData)
-            print("Making a copy")
-        }
-            return _data.unbox
-        }
-    }
-    init(_ data: NSData) {
-        _data = Box(data.mutableCopy() as! NSMutableData)
-    }
-    
-    init() {
-        _data = Box(NSMutableData())
-    }
-}
+//extension Point {
+//    static let zero = Point(x: 0, y: 0)
+//}
+//
+//extension Rectangle {
+//    init(x: Int, y: Int, width: Int, height: Int) {
+//        origin = Point(x: x, y: y)
+//        size = Size(width: width, height: height)
+//    }
+//}
+//
+//func +(lhs: Point, rhs: Point) -> Point {
+//    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+//}
+//
+//extension Rectangle {
+//    mutating func translate(by offset: Point) {
+//        origin = origin + offset
+//    }
+//}
+//
+//extension Rectangle {
+//    func translated(by offset: Point) -> Rectangle {
+//        var copy = self
+//        copy.translate(by: offset)
+//        return copy
+//    }
+//}
+//
+//final class Box<A> {
+//    var unbox: A
+//    init(_ value: A) {
+//        unbox = value
+//    }
+//}
+//
+//
+//struct MyData {
+//    var _data: Box<NSMutableData>
+//    var _dataForWriting: NSMutableData {
+//      mutating get {
+//        if !isKnownUniquelyReferenced(&_data) {
+//            _data = Box(_data.unbox.mutableCopy() as! NSMutableData)
+//            print("Making a copy")
+//        }
+//            return _data.unbox
+//        }
+//    }
+//    init(_ data: NSData) {
+//        _data = Box(data.mutableCopy() as! NSMutableData)
+//    }
+//
+//    init() {
+//        _data = Box(NSMutableData())
+//    }
+//}
 
 //let theData = NSData(base64Encoded: "wAEP/w==")!
 //print(theData == nil)
@@ -823,12 +823,12 @@ struct MyData {
 //let y = x
 //y._data === x._data
 
-extension MyData {
-   mutating func append(_ byte: UInt8) {
-        var mutableByte = byte
-        _dataForWriting.append(&mutableByte, length: 1)
-    }
-}
+//extension MyData {
+//   mutating func append(_ byte: UInt8) {
+//        var mutableByte = byte
+//        _dataForWriting.append(&mutableByte, length: 1)
+//    }
+//}
 //
 //x.append(0x55)
 //y._data
@@ -924,11 +924,932 @@ func uniqueIntegerProvider() -> AnyIterator<Int> {
 //for i in uniqueIntegerProvider() {
 //    print(i)
 //}
-let fu = uniqueIntegerProvider()
-let one = fu.next()
-let two = fu.next()
-let other = uniqueIntegerProvider()
-other.next()
+//let fu = uniqueIntegerProvider()
+//let one = fu.next()
+//let two = fu.next()
+//let other = uniqueIntegerProvider()
+//other.next()
 
 // 第六章 编码和解码
+struct Coordinate : Codable {
+    var latitude: Double
+    var longitude: Double
+}
+//
+//struct Placemark : Codable {
+//    var name: String
+//    var coordinate: Coordinate
+//}
+//
+//let places = [Placemark(name: "Berlin", coordinate: Coordinate(latitude: 52, longitude: 13)), Placemark(name: "Cape Town", coordinate: Coordinate(latitude: -34, longitude: 18))]
 
+//do {
+//    let encoder = JSONEncoder()
+//    var jsonData = try encoder.encode(places)
+//    let jsonString = String(decoding: jsonData, as: UTF8.self)
+//
+//    let decoder = JSONDecoder()
+//    let decoded = try decoder.decode([Placemark].self, from: jsonData)
+//    type(of: decoded)
+//    decoded[0]
+//    decoded == places
+//} catch {
+//    print(error.localizedDescription)
+//}
+
+
+//struct Placemark : Codable {
+//    var name: String
+//    var coor: Coordinate?
+//
+//    public init(from decoder: Decoder) throws {
+//     let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.name = try container.decode(String.self, forKey: .name)
+//        do {
+//           self.coor = try container.decode(Coordinate.self, forKey: .coor)
+//        } catch DecodingError.keyNotFound {
+//            print("Eooro")
+//            self.coor = nil
+//        }
+//    }
+//}
+//
+//let validJSONInput = """
+//    [ { "name" : "Berlin" }, { "name" : "Cape Town" } ]
+//"""
+//let invalidJSONInput = """
+//[ { "name" : "Berlin", "coor": {} } ]
+//"""
+//
+//let decoder = JSONDecoder()
+//let t = try decoder.decode([Placemark].self, from: invalidJSONInput.data(using: .utf8)!)
+
+import CoreLocation
+
+//struct Placemark : Codable {
+//    var name: String
+//    var coordinate: CLLocationCoordinate2D
+//}
+
+//extension Placemark {
+//    private enum CodingKeys : String, CodingKey {
+//        case name
+//        case latitude = "lat"
+//        case longitude = "lon"
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(name, forKey: .name)
+//        try container.encode(coordinate.latitude, forKey: .latitude)
+//        try container.encode(coordinate.longitude, forKey: .longitude)
+//    }
+//
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.name = try container.decode(String.self, forKey: .name)
+//        self.coordinate = CLLocationCoordinate2D(latitude: try container.decode(Double.self, forKey: .latitude), longitude: try container.decode(Double.self, forKey: .longitude))
+//    }
+//}
+
+//struct Placemark : Encodable {
+//    var name: String
+//    var coordinate: CLLocationCoordinate2D
+//
+//    enum CodingKeys: CodingKey {
+//        case name
+//        case coordinate
+//    }
+//
+//    private enum CoodinateCodingKeys : CodingKey {
+//        case latitude
+//        case longitude
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(name, forKey: .name)
+//
+//        var coordinateContainer = container.nestedContainer(keyedBy: CoodinateCodingKeys.self, forKey: .coordinate)
+//
+//        try coordinateContainer.encode(coordinate.longitude, forKey: .longitude)
+//        try coordinateContainer.encode(coordinate.latitude, forKey: .latitude)
+//    }
+//}
+
+
+//extension CLLocationCoordinate2D : Codable {}
+
+
+//struct Placemark : Codable {
+//    var name: String
+//    private var _coordinate: Coordinate
+//
+//    var coordinate: CLLocationCoordinate2D {
+//        get {
+//            return CLLocationCoordinate2D(latitude: _coordinate.latitude, longitude: _coordinate.longitude)
+//        }
+//
+//        set {
+//            _coordinate = Coordinate(latitude: newValue.latitude, longitude: newValue.longitude)
+//        }
+//    }
+//
+//    private enum CodingKeys: String, CodingKey {
+//        case name
+//        case _coordinate = "coordinate"
+//    }
+//}
+
+//enum Either<A: Codable, B: Codable>: Codable {
+//    case left(A)
+//    case right(B)
+//
+//    private enum CodingKeys: CodingKey {
+//        case left
+//        case right
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        switch self {
+//        case .left(let value):
+//            try container.encode(value, forKey: .left)
+//
+//        case .right(let value):
+//            try container.encode(value, forKey: .right)
+//        }
+//    }
+//
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        if let leftValue = try container.decodeIfPresent(A.self, forKey: .left) {
+//            self = .left(leftValue)
+//        } else {
+//            let rightValue = try container.decode(B.self, forKey: .right)
+//            self = .right(rightValue)
+//        }
+//    }
+//}
+
+//let values: [Either<String, Int>] = [.left("plum"), .right(43)]
+//
+//do {
+//    let encoder = PropertyListEncoder()
+//    encoder.outputFormat = .xml
+//    let xmlData = try encoder.encode(values)
+//    let xmlString = String(decoding: xmlData, as: UTF8.self)
+//    print(xmlString)
+//
+//    let decoder = PropertyListDecoder()
+//    let decoded = try decoder.decode([Either<String, Int>].self, from: xmlData)
+//    print(decoded)
+//
+//} catch {
+//    print("Error")
+//}
+
+// 7 函数
+
+//let v: String? = "nil"
+//let s = v.map {_ in
+//    return "d"
+//}
+//"d".localizedStandardCompare("d")
+//"d".localizedCompare("d")
+
+//@objcMembers
+//final class Person: NSObject {
+//
+//    let first: String
+//    let last: String
+//    let yearOfBirth: Int
+//    init(first: String, last: String, yearOfBirth: Int) {
+//        self.first = first
+//        self.last = last
+//        self.yearOfBirth = yearOfBirth
+//    }
+//
+//}
+//
+//let people = [Person(first: "Emily", last: "Young", yearOfBirth: 2002), Person(first: "David", last: "Gray", yearOfBirth: 1991), Person(first: "Robert", last: "Barnes", yearOfBirth: 1985), Person(first: "Ava", last: "Barnes", yearOfBirth: 2000), Person(first: "Joanne", last: "Miller", yearOfBirth: 1994), Person(first: "Ava", last: "Barnes", yearOfBirth: 1998),]
+//
+//let lastDescriptor = NSSortDescriptor(key: #keyPath(Person.last), ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+//
+//let firstDescriptor = NSSortDescriptor(key: #keyPath(Person.first),ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+//
+//let yearDescriptor = NSSortDescriptor(key: #keyPath(Person.yearOfBirth), ascending: true)
+//
+//let descriptors = [lastDescriptor, firstDescriptor, yearDescriptor]
+//(people as NSArray).sortedArray(using: descriptors)
+//print(people)
+//
+//var files: [NSString] = ["one", "file.h", "file.c", "test.h"]
+//
+//people.sorted { p0, p1 in
+//    let left = [p0.last, p0.first]
+//    let right = [p1.last, p1.first]
+//    return left.lexicographicallyPrecedes(right) { $0.localizedStandardCompare($1) == .orderedAscending }
+//
+//}
+//
+//typealias SortDescriptor<Value> = (Value, Value) -> Bool
+//
+//func sortDescriptor<Value, Key>(
+//    key: @escaping (Value) -> Key, by areInIncreasingOrder: @escaping (Key, Key) -> Bool) -> SortDescriptor<Value> {
+//    return { areInIncreasingOrder(key($0), key($1)) }
+//}
+//
+//let sortByYearAlt: SortDescriptor<Person> = sortDescriptor(key: { $0.yearOfBirth }, by: <)
+//people.sorted(by: sortByYearAlt)
+//
+//func sortDescriptor<Value, Key>(key: @escaping (Value) -> Key)  -> SortDescriptor<Value> where Key: Comparable {
+//    return { key($0) < key($1) }
+//}
+//
+//let sortByYearAlt1: SortDescriptor<Person> = sortDescriptor {
+//    $0.yearOfBirth
+//}
+//people.sorted(by: sortByYearAlt1)
+//
+//
+//func sortDescriptor<Value, Key>(
+//    key: @escaping (Value) -> Key,
+//    ascending: Bool = true,
+//    by comparator: @escaping (Key) -> (Key) -> ComparisonResult
+//    ) -> SortDescriptor<Value> {
+//    return {
+//        lhs, rhs in
+//        let order: ComparisonResult = ascending ? .orderedAscending : .orderedDescending
+//        return comparator(key(lhs))(key(rhs)) == order
+//
+//    }
+//}
+//
+//let sortByFirstName: SortDescriptor<Person> = sortDescriptor(key: { $0.first }, by: String.localizedStandardCompare)
+
+//struct My {
+//    func name() -> String {
+//        return "s"
+//    }
+//}
+//
+//let ssdd = My.name
+//
+//let myd = ssdd(My())()
+//people.sorted(by: sortByFirstName)
+
+
+//func combine<Value>(sortDescriptors: [SortDescriptor<Value>]) -> SortDescriptor<Value> {
+//    return {lhs, rhs in
+//        for areInIncreasingOrder in sortDescriptors {
+//            if areInIncreasingOrder(lhs, rhs) { return true }
+//            if areInIncreasingOrder(rhs, lhs) { return false }
+//        }
+//        return false
+//    }
+//}
+//
+//let sortByLastName: SortDescriptor<Person> = sortDescriptor(key: { $0.last }, by: String.localizedStandardCompare)
+//
+//let combined: SortDescriptor<Person> = combine(sortDescriptors: [sortByLastName, sortByFirstName, sortByYearAlt1])
+//people.sorted(by: combined)
+
+//typealias Clousure<A> = (A, A) -> Bool
+//infix operator <||>: LogicalDisjunctionPrecedence
+//func <||><A>(lhs:@escaping Clousure<A>, rhs:@escaping Clousure<A>) -> Clousure<A> {
+//    return {x, y in
+//        if lhs(x, y) {
+//            return true
+//        }
+//        if lhs(y, x) {
+//            return false
+//        }
+//
+//        if rhs(x, y) {
+//            return true
+//        }
+//        return false;
+//    }
+//}
+//
+//
+//let combineAlt = sortByLastName <||> sortByFirstName <||> sortByYearAlt1
+//
+//people.sorted(by: combineAlt)
+//
+//func lift<A>(_ compare: @escaping (A) -> (A) -> ComparisonResult) -> (A?) -> (A?) -> ComparisonResult {
+//    return {lhs in
+//        { rhs in
+//            switch (lhs, rhs) {
+//            case (nil, nil): return .orderedSame
+//            case (nil, _): return .orderedAscending
+//            case (_, nil): return .orderedDescending
+//            case let (l?, r?): return compare(l)(r)
+//            }
+//        }
+//    }
+//}
+//let compare = lift(String.localizedStandardCompare)
+//let result = files.sorted(by: sortDescriptor(key: { $0.pathExtension }, by: compare))
+//result
+//
+//
+//class AlertView {
+//
+//    var buttons: [String]
+//    var buttonTapped: ((_ buttonIndex: Int) -> ())?
+//
+//    init(buttons: [String] = ["OK", "Cancel"]) {
+//        self.buttons = buttons }
+//
+//    func fire() { buttonTapped?(1) }
+//}
+//
+//struct TapLogger {
+//    var taps: [Int] = []
+//
+//    mutating func logTap(index: Int) { taps.append(index) }
+//
+//}
+//
+//let alert = AlertView()
+//var logger = TapLogger()
+//
+//alert.buttonTapped = logger.logTap
+
+
+//struct Point {
+//    var x: Double
+//    var y: Double
+//    private(set) lazy var distanceFromOrigin: Double = (x*x + y*y).squareRoot()
+//
+//    init(x: Double, y: Double) {
+//        self.x = x
+//        self.y = y
+//    }
+//}
+
+//var jap: [String: Any] = [
+//    "coordinates": [
+//        "latitude": 35.0,
+//        "longitude": 139.0
+//    ]
+//]
+
+//(jap["coordinates"] as? [String: Double])?["latitude"] = 20
+
+
+
+//extension Dictionary {
+//    subscript<Result>(key: Key, as type: Result.Type) -> Result? {
+//        get {
+//            return self[key] as? Result
+//        }
+//
+//        set {
+//            guard let value = newValue as? Value else {
+//                return
+//            }
+//            self[key] = value
+//        }
+//    }
+//}
+//
+//jap["coordinates", as: [String : Double].self]?["latitude"] = 98.0
+//jap["coordinates"]
+
+/*
+struct Address {
+    var street: String
+    var city: String
+    var zipCode: Int
+}
+
+struct Person {
+    let name: String
+    var address: Address
+}
+
+
+let streetKeyPath = \Person.address.street
+let namePath = \Person.name
+print(streetKeyPath)
+print(namePath)
+let simpleAddress = Address(street: "a", city: "b", zipCode: 3)
+var lisa = Person(name: "lisa", address: simpleAddress)
+lisa[keyPath: streetKeyPath] = "c"
+
+let countkeyPath = namePath.appending(path: \.count)
+lisa[keyPath: countkeyPath]
+
+
+extension NSObjectProtocol where Self: NSObject {
+    func observe<A, Other>(_ keyPath: KeyPath<Self, A>, writeTo other: Other, _ otherKeyPath: ReferenceWritableKeyPath<Other, A>) -> NSKeyValueObservation where A: Equatable, Other: NSObjectProtocol{
+        return observe(keyPath, options: .new, changeHandler: { (_, change) in
+            guard let newValue = change.newValue, other[keyPath: otherKeyPath] != newValue else {
+                return
+            }
+            other[keyPath: otherKeyPath] = newValue
+        })
+    }
+}
+
+
+extension NSObjectProtocol where Self: NSObject {
+    func bind<A, Other>(_ keyPath: ReferenceWritableKeyPath<Self, A>, to other: Other, _ otherKeyPath: ReferenceWritableKeyPath<Other, A>) -> (NSKeyValueObservation, NSKeyValueObservation) where A: Equatable, Other: NSObject {
+        let one = observe(keyPath, writeTo: other, otherKeyPath)
+        let two = other.observe(otherKeyPath, writeTo: self, keyPath)
+        return (one, two)
+    }
+}
+
+
+final class Sample: NSObject {
+    @objc dynamic var name: String = ""
+}
+
+class MyObj: NSObject {
+    @objc dynamic var test: String = ""
+}
+
+let sample = Sample()
+let test = MyObj()
+
+let ob = sample.bind(\Sample.name, to: test, \.test)
+
+sample.name = "plum"
+test.test
+test.test = "libo"
+sample.name
+
+
+func transform(_ input: Int, with f:((Int) -> (Int))?) -> Int {
+    print("使用可选值重载")
+    guard let f = f else {
+        return input;
+    }
+    return f(input);
+}
+
+
+func transform(_ input: Int, with f:(Int) -> (Int)) -> Int {
+    print("使用可选值重载")
+    return f(input);
+}
+
+
+extension Array {
+    func all(matching predicate: (Element) -> Bool) -> Bool {
+//        return self.lazy.filter({!predicate($0)}).isEmpty
+        return withoutActuallyEscaping(predicate, do: { type in
+            self.lazy.filter({!type($0)}).isEmpty
+        })
+    }
+}
+
+let areAllEven = [1 ,2].all { $0 % 2 == 0 }
+print(areAllEven)
+*/
+
+// 8 字符串
+
+//"e" + "u+009e"
+//let songle = "P\u{00E9}mom"
+//let songle1 = "Pe\u{0301}mom"
+//songle.count
+//songle1.count
+//
+//songle.utf16.count
+//songle1.utf16.count
+//
+//let nsSingle = songle as NSString
+//let nsDou = songle1 as NSString
+//
+//nsSingle.length
+//nsDou.length
+//
+//nsSingle == nsDou
+//let a = nsSingle.compare(songle1)
+//
+//let str = "sfdfdfd"
+//str.indices
+//str.utf8CString
+
+let pokemon = "Poke\u{301}mon"
+
+if let ac = pokemon.unicodeScalars.index(of: "\u{301}") {
+    ac.samePosition(in: pokemon)
+}
+
+let sentence = """
+The quick brown fox jumped \
+over the lazy dog.
+"""
+var words: [String] = []
+
+sentence.enumerateSubstrings(in: sentence.startIndex..., options: .byWords) { (word, range, _, _) in
+    guard let word = word else {
+        return
+    }
+    words.append(word)
+}
+
+let lowCa = ("a" as Character)..."z"
+
+// not conform Stridable Protocol
+//for i in lowCa {
+//    print(i)
+//}
+
+//extension Unicode.Scalar: Strideable {
+//    public typealias Stride = Int
+//
+//    public func distance(to other: Unicode.Scalar) -> Int {
+//        return Int(other.value) - Int(self.value)
+//    }
+//
+//    public func advanced(by n: Int) -> Unicode.Scalar {
+//        return Unicode.Scalar(UInt32(Int(value) + n))!
+//    }
+//}
+//
+//let lowCb = ("a" as UnicodeScalar)..."z"
+//Array(lowCb.map(Character.init))
+//
+//var s = ""
+//let numbers = [1, 2, 3]
+//print(numbers, to: &s)
+//s
+
+//var s = ""
+//_playgroundPrintHook = { text in
+//    s += text
+//}
+//
+//print("plum")
+//s
+
+//struct PlumSteam: TextOutputStream {
+//    var buffer: [String] = []
+//    mutating func write(_ string: String) {
+//        buffer.append(string)
+//    }
+//}
+//
+//var st = PlumSteam()
+//print("libo", to: &st)
+//print("plum", to: &st)
+//print(st)
+//
+//struct SlowSteamer: TextOutputStreamable, ExpressibleByArrayLiteral {
+//    var contents: [String]
+//    init(arrayLiteral elements: String...) {
+//        contents = elements
+//    }
+//
+//    func write<Target: TextOutputStream>(to target: inout Target) {
+//        for x in contents {
+//            target.write(x)
+//            target.write("\n")
+//            sleep(1)
+//        }
+//    }
+//}
+//
+//let slow: SlowSteamer = [
+//    "li",
+//    "bo",
+//    "plum"
+//]
+//
+//print(slow)
+//
+//
+//struct StdErr: TextOutputStream {
+//    mutating func write(_ string: String) {
+//        guard !string.isEmpty else {
+//            return
+//        }
+//
+//        fputs(string, stderr)
+//    }
+//}
+//
+//var stand = StdErr()
+//print("mo", to: &stand)
+//stand
+
+// 错误处理
+//enum Result<A, ErrorType: Error> {
+//    case failure(ErrorType)
+//    case success(A)
+//}
+//
+//enum FileError: Error {
+//    case fileDoesNotExist
+//    case noPermission
+//}
+//
+//enum ParseError: Error {
+//    case wrongEncoding
+//    case warning(line: Int, message: String)
+//}
+
+
+
+//CustomNSError
+//LocalizedError
+
+//extension Collection {
+//    func all(matching predicate: (Element) -> Bool) -> Bool {
+//        for element in self {
+//            guard predicate(element) else {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
+//
+//
+//func checkPrimes2(_ numbers: [Int]) -> Bool {
+//    return numbers.all { $0 > 0 }
+//}
+
+//泛型
+//func log<View: UIView>(_ view: View) {
+//    print("it's a \(type(of: view)), frame:\(view.frame)")
+//}
+//
+//func log(_ view: UILabel) {
+//    let text = view.text ?? "(empty)"
+//    print("it's a label; text:\(text)")
+//
+//}
+//
+//
+//let label = UILabel(frame: CGRect(x: 0, y: 0, width: 23, height: 30))
+//label.text = "plum"
+////log(label)
+//
+//let view = UIView(frame: CGRect(x: 0, y: 0, width: 23, height: 30))
+////log(view)
+//
+//for view in [label, view] {
+//    log(view)
+//}
+//
+//precedencegroup ExponentiationPrecedence {
+//    associativity: left
+//    higherThan: MultiplicationPrecedence
+//}
+//
+//infix operator **: ExponentiationPrecedence
+//func **(lhs: Double, rhs: Double) -> Double {
+//    return pow(lhs, rhs)
+//}
+//
+//func **(lhs: Float, rhs: Float) -> Float {
+//    return pow(lhs, rhs)
+//}
+//
+//2.0 ** 3.0
+//
+//func **<I: BinaryInteger>(lhs:I, rhs: I) -> I {
+//    let result = Double(Int64(lhs)) ** Double(Int64(rhs))
+//    return I(result)
+//}
+//
+//let result: Int = 2 ** 3
+//
+//extension Sequence where Element: Equatable {
+//    func isSubset(of other: [Element]) -> Bool {
+//        for element in self {
+//            guard other.contains(element) else {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
+//
+//let one = [1, 2]
+//let two = [1, 2, 4, 5]
+//one.isSubset(of: two)
+//
+//extension Sequence where Element: Hashable {
+//    func isSubset(of other: [Element]) -> Bool {
+//        let otherSet = Set(other)
+//        for element in self {
+//            guard otherSet.contains(element) else {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
+//
+//extension Sequence where Element: Hashable {
+//    func isSubset<S: Sequence>(of other: S) -> Bool where S.Element == Element {
+//        let otherSet = Set(other)
+//        for element in self {
+//            guard otherSet.contains(element) else {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
+//
+//[5, 4, 3].isSubset(of: 1...10)
+//
+//extension Sequence {
+//    func isSubset<S: Sequence>(of other: S, by areEquivalent: (Element, S.Element) -> Bool) -> Bool {
+//        for element in self {
+//            guard other.contains(where: { areEquivalent(element, $0) }) else {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
+//
+//let bo = [[1, 2]].isSubset(of: [[1, 2] as [Int], [2, 4]]) { $0 == $1 }
+//bo
+//
+//extension Array {
+//    func binarySearch(for value: Element, areInIncreasing: (Element, Element) -> Bool) -> Int? {
+//        var left = 0
+//        var right = count - 1
+//        while left <= right {
+//            let mid = (left + right) / 2
+//            let candicate = self[mid]
+//            if areInIncreasing(candicate, value) {
+//                left = mid + 1
+//            } else if areInIncreasing(value, candicate) {
+//                right = mid - 1
+//            } else {
+//                return mid
+//            }
+//
+//        }
+//        return nil
+//    }
+//}
+
+
+//extension RandomAccessCollection where Index == Int, IndexDistance == Int {
+//    public func binarySearch(for value: Element, areInIncreasingOrder: (Element, Element) -> Bool) -> Index? {
+//        var left = 0
+//        var right = 0
+//        while left <= right {
+//            let mid = (left + right) / 2
+//            let candicate = self[mid]
+//            if areInIncreasingOrder(candicate, value) {
+//                left = mid + 1
+//            } else if areInIncreasingOrder(value, candicate) {
+//                right = mid - 1
+//            } else {
+//                return mid
+//            }
+//
+//        }
+//        return nil
+//    }
+//}
+
+//extension RandomAccessCollection {
+//    public func binarySearch(for value: Element, areInIncreasingOrder: (Element, Element) -> Bool) -> Index? {
+//        guard !isEmpty else {
+//            return nil;
+//        }
+//        var left = startIndex
+//        var right = index(before: endIndex)
+//        while left <= right {
+//            let distan = distance(from: left, to: right)
+//            let mid = index(left, offsetBy: distan / 2)
+//            let candicate = self[mid]
+//            if areInIncreasingOrder(candicate, value) {
+//                left = index(after: mid)
+//            } else if areInIncreasingOrder(value, candicate) {
+//                right = index(before: mid)
+//            } else {
+//                return mid
+//            }
+//
+//        }
+//        return nil
+//    }
+//}
+//
+//
+//let a = ["a", "b", "c", "d", "e", "f", "g",]
+//let r = a.reversed()
+//r.binarySearch(for: "g", areInIncreasingOrder: >) == r.startIndex
+//
+//let slice = a[2...5]
+//slice.startIndex
+
+// 协议
+
+struct ConstantIterator: IteratorProtocol {
+    mutating func next() -> Int? {
+        return 1
+    }
+}
+
+//let iterator: IteratorProtocol = ConstantIterator()
+
+//class IteratorStore<I: IteratorProtocol> where I.Element == Int {
+//    var iterator: I
+//    init(iterator: I) {
+//        self.iterator = iterator
+//    }
+//}
+//
+//class IntIterator {
+//    var nextImpl:() -> Int?
+//    init<I: IteratorProtocol>(_ iterator: I) where I.Element == Int {
+//        var iteratorCopy = iterator
+//        self.nextImpl = { iteratorCopy.next() }
+//    }
+//}
+//
+//var iter = IntIterator(ConstantIterator())
+//
+//extension IntIterator: IteratorProtocol {
+//    func next() -> Int? {
+//        return nextImpl()
+//    }
+//}
+//
+//class AnyIterator<A>: IteratorProtocol {
+//    var nextImpl: () -> A?
+//    init<I: IteratorProtocol>(_ iterator: I) where I.Element == A {
+//        var iter = iterator
+//        nextImpl = { iter.next() }
+//    }
+//
+//    func next() -> A? {
+//        return nextImpl()
+//    }
+//}
+
+
+class IteratorBox<Element>: IteratorProtocol {
+    func next() -> Element? {
+        fatalError()
+    }
+}
+
+class IteratorBoxHelper<I: IteratorProtocol> {
+    var iterator: I
+    init(iterator: I) {
+        self.iterator = iterator
+    }
+    func next() -> I.Element? {
+        return iterator.next()
+    }
+}
+
+//let s = IteratorBoxHelper(iterator: ConstantIterator())
+//
+//class IntergerRef: NSObject {
+//    let int: Int
+//    init(_ int: Int) {
+//        self.int = int
+//    }
+//}
+//
+//func ==(l: IntergerRef, r: IntergerRef) -> Bool {
+//    return l.int == r.int
+//}
+//
+//do {
+//    let one = IntergerRef(1)
+//    let other = IntergerRef(1)
+//    one == other
+//}
+//
+//
+//do {
+//    let one: NSObject = IntergerRef(1)
+//    let other: NSObject = IntergerRef(1)
+//    one == other
+//}
+//
+
+func f<C: CustomStringConvertible>(_ x: C) -> Int {
+    return MemoryLayout.size(ofValue: x)
+}
+
+func g(_ x: CustomStringConvertible) -> Int {
+    return MemoryLayout.size(ofValue: x)
+}
+
+f(5)
+g(5)
+MemoryLayout<UITableViewDelegate>.size
+
+let z = UnsafeMutablePointer<Int>.allocate(capacity: 2)

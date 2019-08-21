@@ -16,7 +16,7 @@
 
 /* Begin PBXFileReference section */
 		38193FB01F3D660B00C74264 /* 哈希.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "哈希.playground"; sourceTree = "<group>"; };
-		382297151F4FDB2800D88347 /* 链表.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "链表.playground"; sourceTree = "<group>"; };
+		382297151F4FDB2800D88347 /* 链表.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "链表.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		38237F771F31888500291FA3 /* Swift_advance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swift_advance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38237F7A1F31888500291FA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		38237F7C1F31888500291FA3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -26,7 +26,7 @@
 		38237F861F31888500291FA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38237F8D1F3188B600291FA3 /* first_Ex.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = first_Ex.playground; sourceTree = "<group>"; };
 		386F4B8D1F46A0D600312361 /* 集合类型.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "集合类型.playground"; sourceTree = "<group>"; };
-		38ECF6701F454BC200C15B0B /* Sequence.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sequence.playground; sourceTree = "<group>"; };
+		38ECF6701F454BC200C15B0B /* Sequence.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sequence.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +124,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
